@@ -19,8 +19,8 @@ def define_subcommand(subparsers):
 all_types = ["p", "s", "c"]
 
 
-def sort_type(row):
-    return f"{row[0]}{row[1]}"
+def sort_total(curr):
+    return sum(curr.values())
 
 
 def cwe_report(curr_dict, included, limit=0):
@@ -44,31 +44,36 @@ def cwe_report(curr_dict, included, limit=0):
         len("Combined"), max(len(str(v.get("Combined", 0))) for v in curr_dict.values())
     )
 
-    header = "CWE".ljust(max_cwe_len + 1)
+    header = ["CWE".ljust(max_cwe_len)]
+    underline = ["-".ljust(max_cwe_len, "-")]
     if not included or "p" in included:
-        header += "Primary".rjust(max_p_len + 1)
+        header.append("Primary".rjust(max_p_len))
+        underline.append("-".rjust(max_p_len, "-"))
     if not included or "s" in included:
-        header += "Secondary".rjust(max_s_len + 1)
+        header.append("Secondary".rjust(max_s_len))
+        underline.append("-".rjust(max_s_len, "-"))
     if not included or "c" in included:
-        header += "Combined".rjust(max_c_len + 1)
+        header.append("Combined".rjust(max_c_len))
+        underline.append("-".rjust(max_c_len, "-"))
 
-    print(header)
+    print(" | ".join(header))
+    print("-|-".join(underline))
     keys = sorted(
-        curr_dict.keys(), key=lambda x: sum(curr_dict.get(x, {}).values()), reverse=True
+        curr_dict.keys(), key=lambda x: sort_total(curr_dict.get(x, {})), reverse=True
     )
     if limit > 0:
         keys = keys[0:limit]
 
     for label in keys:
         count = curr_dict.get(label, 0)
-        output = label.ljust(max_cwe_len + 1)
+        output = [label.ljust(max_cwe_len)]
         if not included or "p" in included:
-            output += str(count.get("Primary", 0)).rjust(max_p_len + 1)
+            output.append(str(count.get("Primary", 0)).rjust(max_p_len))
         if not included or "s" in included:
-            output += str(count.get("Secondary", 0)).rjust(max_s_len + 1)
+            output.append(str(count.get("Secondary", 0)).rjust(max_s_len))
         if not included or "c" in included:
-            output += str(count.get("Combined", 0)).rjust(max_c_len + 1)
-        print(output)
+            output.append(str(count.get("Combined", 0)).rjust(max_c_len))
+        print(" | ".join(output))
     print()
 
 
@@ -86,7 +91,7 @@ def run_subcommand(args) -> None:
 
     last_cwe = None
     curr_dict = {}
-    for line in sorted(report, key=lambda x: sort_type(x)):
+    for line in sorted(report, key=lambda x: str(x[1])):
         curr_type = line[0] if line[0] else "UNDEFINED"
         curr_cwe = line[1] if line[1] else "UNDEFINED"
         if last_cwe != curr_cwe:

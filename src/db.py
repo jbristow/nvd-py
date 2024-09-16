@@ -114,7 +114,10 @@ class DbClient:
 
     def kev_report(self):
         con = self.connect(True)
-        con.execute("select has_kev, count(distinct id) as amount from cves group by has_kev;",[])
-        output = {k:v for k,v in con.fetchall()}
+        con.execute(
+            "select has_kev, count(distinct id) as amount from cves group by has_kev;",
+            [],
+        )
+        output = {k: v for k, v in con.fetchall()}
         con.close()
         return output
