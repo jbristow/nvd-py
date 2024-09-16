@@ -4,6 +4,7 @@
 
 * Requires Python 12+
 * A valid key for the nvd api. https://nvd.nist.gov/developers/start-here
+- Use the `requirements.txt` file to install the required pip dependencies.
 
 ### Running the browser
 
