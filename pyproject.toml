@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nvd"
+version = "0.0.1"
+dependencies = [
+    "requests==2.32.3",
+    "duckdb==1.1.0",
+    'importlib-metadata; python_version<"3.12"',
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+nvd = "nvd:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
