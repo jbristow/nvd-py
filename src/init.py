@@ -16,11 +16,11 @@ def globname(folder: str) -> str:
 
 
 def define_subcommand(subparsers):
-    init_parser = subparsers.add_parser("init")
+    init_parser = subparsers.add_parser("init", help="initialize a new local database")
+    init_parser.add_argument("-k", "--api-key", required=True)
     init_parser.add_argument("--json-dir", default="downloaded")
     init_parser.add_argument("--database", default="cve.duck")
     init_parser.add_argument("--skip-dl", action="store_true")
-    init_parser.add_argument("-k", "--api-key", required=True)
 
 
 def run_subcommand(args) -> None:

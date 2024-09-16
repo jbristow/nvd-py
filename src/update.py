@@ -17,7 +17,9 @@ def globname(folder: str) -> str:
 
 
 def define_subcommand(subparsers):
-    update_parser = subparsers.add_parser("update")
+    update_parser = subparsers.add_parser(
+        "update", help="Update the local database with recently modified CVEs"
+    )
     update_parser.add_argument("--json-dir", default="downloaded")
     update_parser.add_argument("--database", default="cve.duck")
     update_parser.add_argument("-k", "--api-key", required=True)

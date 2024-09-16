@@ -2,18 +2,35 @@ from db import DbClient
 
 
 def define_subcommand(subparsers):
-    cwe_parser = subparsers.add_parser("cwe")
+    cwe_parser = subparsers.add_parser("cwe", help="Summary of CWEs")
     cwe_parser.add_argument("--database", default="cve.duck")
     cwe_parser.add_argument(
-        "-p", "--primary", action="append_const", dest="types", const="p"
+        "-p",
+        "--primary",
+        action="append_const",
+        dest="types",
+        const="p",
+        help="Include Primary",
     )
     cwe_parser.add_argument(
-        "-s", "--secondary", action="append_const", dest="types", const="s"
+        "-s",
+        "--secondary",
+        action="append_const",
+        dest="types",
+        const="s",
+        help="Include Secondary",
     )
     cwe_parser.add_argument(
-        "-c", "--combined", action="append_const", dest="types", const="c"
+        "-c",
+        "--combined",
+        action="append_const",
+        dest="types",
+        const="c",
+        help="Include Combined",
     )
-    cwe_parser.add_argument("-l", "--limit", type=int, default=0)
+    cwe_parser.add_argument(
+        "-l", "--limit", type=int, default=0, help="Limit to the top LIMIT cves"
+    )
 
 
 all_types = ["p", "s", "c"]

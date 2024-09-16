@@ -2,16 +2,31 @@ from db import DbClient
 
 
 def define_subcommand(subparsers):
-    sev_parser = subparsers.add_parser("severity")
+    sev_parser = subparsers.add_parser("severity", help="Show severity level counts")
     sev_parser.add_argument("--database", default="cve.duck")
     sev_parser.add_argument(
-        "-p", "--primary", action="append_const", dest="types", const="p"
+        "-p",
+        "--primary",
+        action="append_const",
+        dest="types",
+        const="p",
+        help="Include Primary",
     )
     sev_parser.add_argument(
-        "-s", "--secondary", action="append_const", dest="types", const="s"
+        "-s",
+        "--secondary",
+        action="append_const",
+        dest="types",
+        const="s",
+        help="Include Secondary",
     )
     sev_parser.add_argument(
-        "-c", "--combined", action="append_const", dest="types", const="c"
+        "-c",
+        "--combined",
+        action="append_const",
+        dest="types",
+        const="c",
+        help="Include Combined",
     )
 
 
